@@ -6,3 +6,4 @@ defmodule DictionaryTest do
     assert Dictionary.hello() == :world
   end
 end
+
