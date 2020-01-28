@@ -63,8 +63,7 @@ defmodule GameTest do
             new_game
         end
 
-        moves |> Enum.reduce(game, fun) 
-             
+        moves |> Enum.reduce(game, fun)     
     end 
 
     test "bad guess is recognized" do
@@ -75,28 +74,25 @@ defmodule GameTest do
     end
 
     test "lost game is recognized" do
+        moves = [
+            { "a", :bad_guess },
+            { "b", :bad_guess },
+            { "c", :bad_guess },
+            { "d", :bad_guess },
+            { "e", :bad_guess },
+            { "f", :bad_guess },
+            { "g", :lost }
+        ]
+
         game = Game.new_game("w")
-        game = Game.make_move(game, "a")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 6
-        game = Game.make_move(game, "b")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 5
-        game = Game.make_move(game, "c")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 4
-        game = Game.make_move(game, "d")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 3
-        game = Game.make_move(game, "e")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 2
-        game = Game.make_move(game, "f")
-        assert game.game_state == :bad_guess
-        assert game.turns_left == 1
-        game = Game.make_move(game, "g")
-        assert game.game_state == :lost
-        assert game.turns_left == 0
+
+        fun = fn ({guess, state}, new_game) ->  
+            new_game = Game.make_move(new_game, guess)
+            assert new_game.game_state == state
+            new_game
+        end
+
+        moves |> Enum.reduce(game, fun) 
     end
 
 
