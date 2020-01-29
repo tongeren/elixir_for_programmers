@@ -95,5 +95,4 @@ defmodule GameTest do
         moves |> Enum.reduce(game, fun) 
     end
 
-
   end

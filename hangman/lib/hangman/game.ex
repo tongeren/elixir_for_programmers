@@ -28,13 +28,14 @@ defmodule Hangman.Game do
         %{
             game_state: game.game_state,
             turns_left: game.turns_left,
-            letters: game.letters |> reveal_guessed(game.used)
+            letters:    game.letters |> reveal_guessed(game.used),
+            used:       game.used
         }
     end
 
     # PRIVATE --------------------------------------------------------
 
-    defp accept_move(game, guess, _already_guessed = true) do
+    defp accept_move(game, _guess, _already_guessed = true) do
         Map.put(game, :game_state, :already_used)
     end
 
@@ -71,7 +72,7 @@ defmodule Hangman.Game do
         letters |> Enum.map(fn letter -> reveal_letter(letter, MapSet.member?(used, letter)) end)
     end
 
-    defp reveal_letter(letter, _in_word = true), do: letter
-    defp reveal_letter(letter, _not_in_word),    do: "_"
+    defp reveal_letter(letter, _in_word = true),  do: letter
+    defp reveal_letter(_letter, _not_in_word),    do: "_"
 
 end
